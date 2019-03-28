@@ -1,0 +1,13 @@
+.navigationButton {
+  color: white;
+  border: none;
+  background-color: rgba(0, 0, 0, 0.5);
+  font-size: 10rem;
+  width: 10%;
+}
+
+.image {
+  max-height: 100%;
+  max-width: 80%;
+  object-fit: contain;
+}
