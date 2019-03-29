@@ -1,9 +1,14 @@
 .navigationButton {
   color: white;
+  cursor: pointer;
+  background: none;
   border: none;
-  background-color: rgba(0, 0, 0, 0.5);
   font-size: 10rem;
   width: 10%;
+}
+
+.navigationButton:disabled {
+  visibility: hidden;
 }
 
 .image {

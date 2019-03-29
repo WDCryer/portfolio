@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { memo, useCallback, useEffect } from "react";
 import { createPortal } from "react-dom";
 import styles from "./Modal.module.css";
 
@@ -13,16 +13,13 @@ const Modal = ({ children, onClose, ...props }) => {
     [onClose]
   );
 
-  useEffect(
-    () => {
-      window.addEventListener("keydown", handleKeyDown);
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
 
-      return () => {
-        window.removeEventListener("keydown", handleKeyDown);
-      };
-    },
-    [handleKeyDown]
-  );
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handleKeyDown]);
 
   return createPortal(
     <div className={styles.modal} onClick={onClose} {...props}>
@@ -32,4 +29,4 @@ const Modal = ({ children, onClose, ...props }) => {
   );
 };
 
-export default Modal;
+export default memo(Modal);

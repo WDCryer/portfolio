@@ -1,5 +1,6 @@
-import React, { useCallback, useContext, useEffect } from "react";
+import React, { memo, useCallback, useContext, useEffect } from "react";
 import Modal from "./Modal";
+import ImageLoader from "./ImageLoader";
 import styles from "./ImageModal.module.css";
 import {
   goToImage,
@@ -22,10 +23,12 @@ const ImageModal = ({ src, ...props }) => {
     hasPreviousPage,
     hasNextPage
   } = useContext(PaginationContext);
-
   const goToPrevious = useCallback(
     event => {
-      if (event) event.preventDefault();
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
 
       if (hasPreviousImage) {
         dispatchImageAction(goToPreviousImage());
@@ -39,7 +42,10 @@ const ImageModal = ({ src, ...props }) => {
 
   const goToNext = useCallback(
     event => {
-      if (event) event.preventDefault();
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
 
       if (hasNextImage) {
         dispatchImageAction(goToNextImage());
@@ -62,16 +68,13 @@ const ImageModal = ({ src, ...props }) => {
     [goToPrevious, goToNext]
   );
 
-  useEffect(
-    () => {
-      window.addEventListener("keydown", handleKeyDown);
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
 
-      return () => {
-        window.removeEventListener("keydown", handleKeyDown);
-      };
-    },
-    [handleKeyDown]
-  );
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handleKeyDown]);
 
   return (
     <Modal {...props}>
@@ -82,7 +85,7 @@ const ImageModal = ({ src, ...props }) => {
       >
         {"<"}
       </button>
-      <img className={styles.image} src={src} alt={src} draggable="false" />
+      <ImageLoader className={styles.image} src={src} alt={src} />
       <button
         className={styles.navigationButton}
         onClick={goToNext}
@@ -94,4 +97,4 @@ const ImageModal = ({ src, ...props }) => {
   );
 };
 
-export default ImageModal;
+export default memo(ImageModal);

@@ -1,9 +1,13 @@
 import { SET_PAGE, PREVIOUS_PAGE, NEXT_PAGE } from "../actions/pagination";
+import useURLParams from "../hooks/useURLParams";
 
 const reducer = (state, action) => {
   const { currentPage, totalPages } = state;
   const setPage = page => {
     const currentPage = Math.max(1, Math.min(totalPages, page));
+    const [urlParams, setURLParams] = useURLParams();
+    urlParams.set("page", currentPage);
+    setURLParams(urlParams);
 
     return {
       ...state,

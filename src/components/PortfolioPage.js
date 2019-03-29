@@ -1,22 +1,26 @@
-import React, { useReducer } from "react";
+import React, { memo, useReducer } from "react";
 import PaginationContext from "../contexts/pagination";
 import ImageGallery from "./ImageGallery";
 import Pagination from "./Pagination";
 import images from "../data/images";
+import useURLParams from "../hooks/useURLParams";
 import PaginationReducer from "../reducers/pagination";
 
 const PortfolioPage = () => {
+  const [params] = useURLParams();
+  const initialPage = Number(params.get("page")) || 1;
+  const totalPages = images.length;
   const [pagination, dispatch] = useReducer(PaginationReducer, {
-    currentPage: 1,
-    totalPages: 7,
-    perPage: 10,
-    hasPreviousPage: false,
-    hasNextPage: true
+    currentPage: initialPage,
+    totalPages,
+    hasPreviousPage: initialPage > 1,
+    hasNextPage: initialPage < totalPages
   });
   return (
     <PaginationContext.Provider value={{ ...pagination, dispatch }}>
       <section id="portfolio">
         <header>Portfolio</header>
+        <Pagination />
         <ImageGallery images={images} />
         <Pagination />
       </section>
@@ -24,4 +28,4 @@ const PortfolioPage = () => {
   );
 };
 
-export default PortfolioPage;
+export default memo(PortfolioPage);

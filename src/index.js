@@ -1,14 +1,18 @@
-import React, { StrictMode } from "react";
+import React, { StrictMode, Suspense, lazy } from "react";
 import ReactDOM from "react-dom";
-import PortfolioPage from "./components/PortfolioPage";
 import "./styles.css";
+import Loader from "./components/Loader";
+
+const PortfolioPage = lazy(() => import("./components/PortfolioPage"));
 
 function App() {
   return (
     <StrictMode>
       <div className="App">
         <section id="modal" />
-        <PortfolioPage />
+        <Suspense fallback={<Loader />}>
+          <PortfolioPage />
+        </Suspense>
       </div>
     </StrictMode>
   );

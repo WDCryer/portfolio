@@ -1,8 +1,8 @@
 .thumbnail {
   height: 150px;
   width: 150px;
-  object-fit: cover;
-  object-position: top;
+  object-fit: contain;
+  object-position: center;
   background-color: #eee;
   display: inline-block;
   align-self: center;

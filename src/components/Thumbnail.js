@@ -1,8 +1,9 @@
-import React, { memo, useState } from "react";
+import React, { memo } from "react";
 import styles from "./Thumbnail.module.css";
+import ImageLoader from "./ImageLoader";
 
 const Thumbnail = ({ src, ...props }) => (
-  <img
+  <ImageLoader
     className={styles.thumbnail}
     src={src}
     alt={src}

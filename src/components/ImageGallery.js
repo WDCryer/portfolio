@@ -1,18 +1,42 @@
-import React, { memo, useReducer, useCallback, useState } from "react";
+import React, {
+  Fragment,
+  memo,
+  useEffect,
+  useMemo,
+  useReducer,
+  useCallback,
+  useContext
+} from "react";
 import styles from "./ImageGallery.module.css";
 import Thumbnail from "./Thumbnail";
+import PaginationContext from "../contexts/pagination";
 import ImageModal from "./ImageModal";
 import ImageGalleryContext from "../contexts/image-gallery";
 import ImageGalleryReducer from "../reducers/image-gallery";
-import { goToImage } from "../actions/image-gallery";
+import { goToImage, setTotalImages } from "../actions/image-gallery";
+import useURLParams from "../hooks/useURLParams";
 
 const ImageGallery = ({ images }) => {
+  const [params] = useURLParams();
+  const { currentPage, hasPreviousPage, hasNextPage } = useContext(
+    PaginationContext
+  );
+  const initialImage = useMemo(() => params.get("image") - 1, [params]);
+  const totalImages = useMemo(() => images[currentPage - 1].length, [
+    images,
+    currentPage
+  ]);
   const [imageGallery, dispatch] = useReducer(ImageGalleryReducer, {
-    currentImage: -1,
-    hasPreviousImage: false,
-    hasNextImage: true,
-    totalImages: images.length
+    currentImage: isNaN(initialImage) ? -1 : initialImage,
+    hasPreviousImage: initialImage > 0 || hasPreviousPage,
+    hasNextImage: initialImage < totalImages || hasNextPage,
+    totalImages
   });
+
+  useEffect(() => {
+    const totalImages = images[currentPage - 1].length;
+    dispatch(setTotalImages(totalImages));
+  }, [images, currentPage]);
 
   const showModal = useCallback(index => dispatch(goToImage(index)), [
     dispatch
@@ -22,21 +46,13 @@ const ImageGallery = ({ images }) => {
   return (
     <ImageGalleryContext.Provider value={{ ...imageGallery, dispatch }}>
       <div className={styles.imageGallery}>
-        {images.map((props, i) => (
-          <>
-            <Thumbnail
-              key={`thumbnail-${i}`}
-              {...props}
-              onClick={() => showModal(i)}
-            />
+        {images[currentPage - 1].map(({ image, thumbnail }, i) => (
+          <Fragment key={`fragment-${i}`}>
+            <Thumbnail src={thumbnail} onClick={() => showModal(i)} />
             {imageGallery.currentImage === i && (
-              <ImageModal
-                key={`image-modal-${i}`}
-                onClose={closeModal}
-                {...props}
-              />
+              <ImageModal onClose={closeModal} src={image} />
             )}
-          </>
+          </Fragment>
         ))}
       </div>
     </ImageGalleryContext.Provider>
