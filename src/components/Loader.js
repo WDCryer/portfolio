@@ -1,5 +1,21 @@
 import React, { memo } from "react";
+import styles from "./Loader.module.css";
 
-const Loader = props => <progress {...props} />;
+const Loader = props => (
+  <div className={styles.spinner}>
+    <div />
+    <div />
+    <div />
+    <div />
+    <div />
+    <div />
+    <div />
+    <div />
+    <div />
+    <div />
+    <div />
+    <div />
+  </div>
+);
 
 export default memo(Loader);

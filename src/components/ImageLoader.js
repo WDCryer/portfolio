@@ -22,7 +22,7 @@ const ImageLoader = ({ src, alt, ...props }) => {
   useEffect(() => {
     const waitTimer = setTimeout(() => {
       setIsWaiting(false);
-    }, 400);
+    }, 200);
 
     return () => {
       clearTimeout(waitTimer);

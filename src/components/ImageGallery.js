@@ -46,14 +46,26 @@ const ImageGallery = ({ images }) => {
   return (
     <ImageGalleryContext.Provider value={{ ...imageGallery, dispatch }}>
       <div className={styles.imageGallery}>
-        {images[currentPage - 1].map(({ image, thumbnail }, i) => (
-          <Fragment key={`fragment-${i}`}>
-            <Thumbnail src={thumbnail} onClick={() => showModal(i)} />
-            {imageGallery.currentImage === i && (
-              <ImageModal onClose={closeModal} src={image} />
-            )}
-          </Fragment>
-        ))}
+        {images[currentPage - 1].map(
+          ({ imageSrc, thumbnailSrc, description }, i) => (
+            <Fragment key={`fragment-${i}`}>
+              <Thumbnail
+                src={thumbnailSrc}
+                alt={description}
+                title={description}
+                onClick={() => showModal(i)}
+              />
+              {imageGallery.currentImage === i && (
+                <ImageModal
+                  src={imageSrc}
+                  alt={description}
+                  title={description}
+                  onClose={closeModal}
+                />
+              )}
+            </Fragment>
+          )
+        )}
       </div>
     </ImageGalleryContext.Provider>
   );

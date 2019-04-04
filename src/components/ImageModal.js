@@ -83,7 +83,7 @@ const ImageModal = ({ src, ...props }) => {
         onClick={goToPrevious}
         disabled={!hasPreviousImage && !hasPreviousPage}
       >
-        {"<"}
+        &#8249;
       </button>
       <ImageLoader className={styles.image} src={src} alt={src} />
       <button
@@ -91,7 +91,7 @@ const ImageModal = ({ src, ...props }) => {
         onClick={goToNext}
         disabled={!hasNextImage && !hasNextPage}
       >
-        {">"}
+        &#8250;
       </button>
     </Modal>
   );

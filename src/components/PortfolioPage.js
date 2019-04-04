@@ -18,9 +18,7 @@ const PortfolioPage = () => {
   });
   return (
     <PaginationContext.Provider value={{ ...pagination, dispatch }}>
-      <section id="portfolio">
-        <header>Portfolio</header>
-        <Pagination />
+      <section>
         <ImageGallery images={images} />
         <Pagination />
       </section>
