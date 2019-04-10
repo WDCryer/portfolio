@@ -1,18 +1,6 @@
 .navigationButton {
-  color: white;
-  cursor: pointer;
-  background: none;
-  border: none;
   font-size: 10rem;
   width: 10%;
-}
-
-.navigationButton:hover {
-  color: #cccccc;
-}
-
-.navigationButton:disabled {
-  visibility: hidden;
 }
 
 .image {

@@ -79,7 +79,7 @@ const ImageModal = ({ src, ...props }) => {
   return (
     <Modal {...props}>
       <button
-        className={styles.navigationButton}
+        className={`${styles.navigationButton} dark-button`}
         onClick={goToPrevious}
         disabled={!hasPreviousImage && !hasPreviousPage}
       >
@@ -87,7 +87,7 @@ const ImageModal = ({ src, ...props }) => {
       </button>
       <ImageLoader className={styles.image} src={src} alt={src} />
       <button
-        className={styles.navigationButton}
+        className={`${styles.navigationButton} dark-button`}
         onClick={goToNext}
         disabled={!hasNextImage && !hasNextPage}
       >

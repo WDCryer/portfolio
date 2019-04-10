@@ -9,3 +9,45 @@
   left: 0;
   z-index: 100;
 }
+
+body {
+  margin: 0;
+  padding: 0;
+}
+button {
+  padding: 1rem;
+  margin: 0.5rem;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.dark-button {
+  color: white;
+}
+
+button:disabled {
+  cursor: unset;
+  background-color: transparent;
+}
+
+.light-button:hover {
+  background-color: #dddddd;
+}
+
+.dark-button:hover {
+  background-color: #333333;
+}
+
+.light-button:disabled {
+  color: #cccccc;
+}
+
+.dark-button:disabled {
+  color: #333333;
+}

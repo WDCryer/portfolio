@@ -23,6 +23,9 @@ const Modal = ({ children, onClose, ...props }) => {
 
   return createPortal(
     <div className={styles.modal} onClick={onClose} {...props}>
+      <button className={`${styles.closeButton} dark-button`} onClick={onClose}>
+        x
+      </button>
       {children}
     </div>,
     document.getElementById("modal")
