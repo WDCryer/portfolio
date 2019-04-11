@@ -6,6 +6,7 @@ import {
   goToPreviousPage,
   goToNextPage
 } from "../actions/pagination";
+import Arrow from "./Arrow";
 
 const Pagination = x => {
   const {
@@ -32,13 +33,18 @@ const Pagination = x => {
   return (
     <ul className={styles.pagination}>
       <li>
-        <button disabled={!hasPreviousPage} onClick={onPreviousPageClick}>
-          {"<"}
+        <button
+          disabled={!hasPreviousPage}
+          onClick={onPreviousPageClick}
+          className="light-button"
+        >
+          <Arrow direction="left" />
         </button>
       </li>
       {pages.map(page => (
         <li key={page}>
           <button
+            className="light-button"
             value={page}
             disabled={page === currentPage}
             onClick={onPageClick}
@@ -48,8 +54,12 @@ const Pagination = x => {
         </li>
       ))}
       <li>
-        <button disabled={!hasNextPage} onClick={onNextPageClick}>
-          {">"}
+        <button
+          disabled={!hasNextPage}
+          onClick={onNextPageClick}
+          className="light-button"
+        >
+          <Arrow />
         </button>
       </li>
     </ul>

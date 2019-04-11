@@ -2,7 +2,7 @@ import React, { memo, useCallback, useEffect } from "react";
 import { createPortal } from "react-dom";
 import styles from "./Modal.module.css";
 
-const Modal = ({ children, onClose, ...props }) => {
+const Modal = ({ children, onClose, className = "", ...props }) => {
   const handleKeyDown = useCallback(
     event => {
       if (event.key === "Escape") {
@@ -13,19 +13,23 @@ const Modal = ({ children, onClose, ...props }) => {
     [onClose]
   );
 
-  useEffect(() => {
-    window.addEventListener("keydown", handleKeyDown);
+  useEffect(
+    () => {
+      window.addEventListener("keydown", handleKeyDown);
 
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [handleKeyDown]);
+      return () => {
+        window.removeEventListener("keydown", handleKeyDown);
+      };
+    },
+    [handleKeyDown]
+  );
 
   return createPortal(
-    <div className={styles.modal} onClick={onClose} {...props}>
-      <button className={`${styles.closeButton} dark-button`} onClick={onClose}>
-        x
-      </button>
+    <div
+      className={`${styles.modal} ${className}`}
+      onClick={onClose}
+      {...props}
+    >
       {children}
     </div>,
     document.getElementById("modal")

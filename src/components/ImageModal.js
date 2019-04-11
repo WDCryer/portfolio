@@ -1,6 +1,5 @@
 import React, { memo, useCallback, useContext, useEffect } from "react";
 import Modal from "./Modal";
-import ImageLoader from "./ImageLoader";
 import styles from "./ImageModal.module.css";
 import {
   goToImage,
@@ -10,8 +9,12 @@ import {
 import ImageGalleryContext from "../contexts/image-gallery";
 import PaginationContext from "../contexts/pagination";
 import { goToNextPage, goToPreviousPage } from "../actions/pagination";
+import useImageLoader from "../hooks/useImageLoader";
+import useTimeout from "../hooks/useTimeout";
+import Arrow from "./Arrow";
+import Loader from "./Loader";
 
-const ImageModal = ({ src, ...props }) => {
+const ImageModal = ({ src, alt, title, ...props }) => {
   const {
     dispatch: dispatchImageAction,
     hasPreviousImage,
@@ -68,30 +71,41 @@ const ImageModal = ({ src, ...props }) => {
     [goToPrevious, goToNext]
   );
 
-  useEffect(() => {
-    window.addEventListener("keydown", handleKeyDown);
+  useEffect(
+    () => {
+      window.addEventListener("keydown", handleKeyDown);
 
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [handleKeyDown]);
+      return () => {
+        window.removeEventListener("keydown", handleKeyDown);
+      };
+    },
+    [handleKeyDown]
+  );
+
+  const showLoader = useTimeout(250);
+
+  const source = useImageLoader(src);
 
   return (
-    <Modal {...props}>
+    <Modal
+      {...props}
+      className={styles.imageModal}
+      style={{ backgroundImage: `url(${src})` }}
+    >
       <button
         className={`${styles.navigationButton} dark-button`}
         onClick={goToPrevious}
         disabled={!hasPreviousImage && !hasPreviousPage}
       >
-        &#8249;
+        <Arrow direction="left" size="1rem" className={styles.arrow} />
       </button>
-      <ImageLoader className={styles.image} src={src} alt={src} />
+      {!source && showLoader && <Loader />}
       <button
         className={`${styles.navigationButton} dark-button`}
         onClick={goToNext}
         disabled={!hasNextImage && !hasNextPage}
       >
-        &#8250;
+        <Arrow direction="right" size="1rem" className={styles.arrow} />
       </button>
     </Modal>
   );

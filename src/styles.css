@@ -27,12 +27,20 @@ button {
   cursor: pointer;
 }
 
+.light-button i {
+  border: solid black;
+}
+
 .dark-button {
   color: white;
 }
 
+.dark-button i {
+  border: solid white;
+}
+
 button:disabled {
-  cursor: unset;
+  cursor: not-allowed;
   background-color: transparent;
 }
 
@@ -46,8 +54,18 @@ button:disabled {
 
 .light-button:disabled {
   color: #cccccc;
+  background-color: transparent;
+}
+
+.light-button:disabled i {
+  border: solid #cccccc;
 }
 
 .dark-button:disabled {
   color: #333333;
+  background-color: transparent;
+}
+
+.dark-button:disabled i {
+  border: solid #333333;
 }

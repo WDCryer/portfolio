@@ -33,10 +33,13 @@ const ImageGallery = ({ images }) => {
     totalImages
   });
 
-  useEffect(() => {
-    const totalImages = images[currentPage - 1].length;
-    dispatch(setTotalImages(totalImages));
-  }, [images, currentPage]);
+  useEffect(
+    () => {
+      const totalImages = images[currentPage - 1].length;
+      dispatch(setTotalImages(totalImages));
+    },
+    [images, currentPage]
+  );
 
   const showModal = useCallback(index => dispatch(goToImage(index)), [
     dispatch

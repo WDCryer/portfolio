@@ -1,10 +1,29 @@
+.imageModal {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
 .navigationButton {
-  font-size: 10rem;
-  width: 10%;
+  opacity: 20%;
+  padding: 1rem;
+}
+
+.navigationButton:hover {
+  opacity: 1;
+}
+
+.navigationButton:disabled {
+  opacity: 10%;
+}
+
+.arrow {
+  margin: 1rem;
 }
 
 .image {
-  max-height: 100%;
-  max-width: 80%;
-  object-fit: contain;
+  grid-column-start: 1;
+  grid-column-end: 3;
+  height: 100%;
+  width: 100%;
+  object-fit: scale-down;
 }
