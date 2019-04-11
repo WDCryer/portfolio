@@ -1,4 +1,10 @@
-import React, { memo, useCallback, useContext, useEffect } from "react";
+import React, {
+  memo,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo
+} from "react";
 import Modal from "./Modal";
 import styles from "./ImageModal.module.css";
 import {
@@ -26,65 +32,55 @@ const ImageModal = ({ src, alt, title, ...props }) => {
     hasPreviousPage,
     hasNextPage
   } = useContext(PaginationContext);
-  const goToPrevious = useCallback(
-    event => {
-      if (event) {
-        event.preventDefault();
-        event.stopPropagation();
-      }
+  const goToPrevious = useCallback(() => {
+    if (hasPreviousImage) {
+      dispatchImageAction(goToPreviousImage());
+    } else if (hasPreviousPage) {
+      dispatchPageAction(goToPreviousPage());
+      dispatchImageAction(goToImage(totalImages - 1));
+    }
+  }, [
+    hasPreviousImage,
+    dispatchImageAction,
+    hasPreviousPage,
+    dispatchPageAction
+  ]);
 
-      if (hasPreviousImage) {
-        dispatchImageAction(goToPreviousImage());
-      } else if (hasPreviousPage) {
-        dispatchPageAction(goToPreviousPage());
-        dispatchImageAction(goToImage(totalImages - 1));
-      }
-    },
-    [hasPreviousImage, dispatchImageAction, hasPreviousPage, dispatchPageAction]
-  );
-
-  const goToNext = useCallback(
-    event => {
-      if (event) {
-        event.preventDefault();
-        event.stopPropagation();
-      }
-
-      if (hasNextImage) {
-        dispatchImageAction(goToNextImage());
-      } else if (hasNextPage) {
-        dispatchPageAction(goToNextPage());
-        dispatchImageAction(goToImage(0));
-      }
-    },
-    [hasNextImage, dispatchImageAction, hasNextPage, dispatchPageAction]
-  );
+  const goToNext = useCallback(() => {
+    if (hasNextImage) {
+      dispatchImageAction(goToNextImage());
+    } else if (hasNextPage) {
+      dispatchPageAction(goToNextPage());
+      dispatchImageAction(goToImage(0));
+    }
+  }, [hasNextImage, dispatchImageAction, hasNextPage, dispatchPageAction]);
 
   const handleKeyDown = useCallback(
     event => {
       if (event.key === "ArrowLeft") {
-        goToPrevious(event);
+        goToPrevious();
       } else if (event.key === "ArrowRight") {
-        goToNext(event);
+        goToNext();
       }
     },
     [goToPrevious, goToNext]
   );
 
-  useEffect(
-    () => {
-      window.addEventListener("keydown", handleKeyDown);
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
 
-      return () => {
-        window.removeEventListener("keydown", handleKeyDown);
-      };
-    },
-    [handleKeyDown]
-  );
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handleKeyDown]);
 
-  const showLoader = useTimeout(250);
-
+  const isTimeToShowLoader = useTimeout(250);
   const source = useImageLoader(src);
+
+  const showLoader = useMemo(() => !source && isTimeToShowLoader, [
+    isTimeToShowLoader,
+    source
+  ]);
 
   return (
     <Modal
@@ -93,15 +89,15 @@ const ImageModal = ({ src, alt, title, ...props }) => {
       style={{ backgroundImage: `url(${src})` }}
     >
       <button
-        className={`${styles.navigationButton} dark-button`}
+        className={`${styles.navigationButton} light-button`}
         onClick={goToPrevious}
         disabled={!hasPreviousImage && !hasPreviousPage}
       >
         <Arrow direction="left" size="1rem" className={styles.arrow} />
       </button>
-      {!source && showLoader && <Loader />}
+      {showLoader ? <Loader /> : undefined}
       <button
-        className={`${styles.navigationButton} dark-button`}
+        className={`${styles.navigationButton} light-button`}
         onClick={goToNext}
         disabled={!hasNextImage && !hasNextPage}
       >

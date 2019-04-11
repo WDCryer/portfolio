@@ -1,4 +1,4 @@
-import React, { useState, useEffect, memo } from "react";
+import React, { memo } from "react";
 import Loader from "./Loader";
 import useImageLoader from "../hooks/useImageLoader";
 import useTimeout from "../hooks/useTimeout";

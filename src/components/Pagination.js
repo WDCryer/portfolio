@@ -1,6 +1,13 @@
-import React, { memo, useContext, useCallback, useMemo } from "react";
+import React, {
+  memo,
+  useContext,
+  useCallback,
+  useEffect,
+  useMemo
+} from "react";
 import styles from "./Pagination.module.css";
 import PaginationContext from "../contexts/pagination";
+import ModalIsOpenContext from "../contexts/modal-is-open";
 import {
   goToPage,
   goToPreviousPage,
@@ -16,6 +23,7 @@ const Pagination = x => {
     hasNextPage,
     dispatch
   } = useContext(PaginationContext);
+  const { isModalOpen } = useContext(ModalIsOpenContext);
   const pages = useMemo(
     () => new Array(totalPages).fill(0).map((_, i) => i + 1),
     [totalPages]
@@ -28,7 +36,33 @@ const Pagination = x => {
     () => dispatch(goToPreviousPage()),
     []
   );
+
   const onNextPageClick = useCallback(() => dispatch(goToNextPage()), []);
+
+  const handleKeyDown = useCallback(
+    event => {
+      if (!isModalOpen) {
+        if (event.key === "ArrowLeft" && hasPreviousPage) {
+          onPreviousPageClick();
+        } else if (event.key === "ArrowRight" && hasNextPage) {
+          onNextPageClick();
+        }
+      }
+    },
+    [
+      isModalOpen,
+      hasPreviousPage,
+      onPreviousPageClick,
+      hasNextPage,
+      onNextPageClick
+    ]
+  );
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [handleKeyDown]);
 
   return (
     <ul className={styles.pagination}>
@@ -44,7 +78,7 @@ const Pagination = x => {
       {pages.map(page => (
         <li key={page}>
           <button
-            className="light-button"
+            className={`light-button ${styles.activeButton}`}
             value={page}
             disabled={page === currentPage}
             onClick={onPageClick}

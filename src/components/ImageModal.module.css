@@ -3,9 +3,11 @@
   background-position: center;
   background-size: contain;
 }
+
 .navigationButton {
-  opacity: 20%;
+  opacity: 0.5;
   padding: 1rem;
+  transition: opacity 250ms, background-color 250ms;
 }
 
 .navigationButton:hover {
@@ -13,7 +15,7 @@
 }
 
 .navigationButton:disabled {
-  opacity: 10%;
+  opacity: 0;
 }
 
 .arrow {

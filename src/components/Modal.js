@@ -1,6 +1,7 @@
 import React, { memo, useCallback, useEffect } from "react";
 import { createPortal } from "react-dom";
 import styles from "./Modal.module.css";
+import CloseButton from "./CloseButton";
 
 const Modal = ({ children, onClose, className = "", ...props }) => {
   const handleKeyDown = useCallback(
@@ -13,16 +14,13 @@ const Modal = ({ children, onClose, className = "", ...props }) => {
     [onClose]
   );
 
-  useEffect(
-    () => {
-      window.addEventListener("keydown", handleKeyDown);
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
 
-      return () => {
-        window.removeEventListener("keydown", handleKeyDown);
-      };
-    },
-    [handleKeyDown]
-  );
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handleKeyDown]);
 
   return createPortal(
     <div
@@ -30,6 +28,10 @@ const Modal = ({ children, onClose, className = "", ...props }) => {
       onClick={onClose}
       {...props}
     >
+      <CloseButton
+        onClick={onClose}
+        className={`${styles.closeButton} light-button`}
+      />
       {children}
     </div>,
     document.getElementById("modal")

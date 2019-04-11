@@ -1,3 +1,12 @@
+:root {
+  --light-theme-text: black;
+  --dark-theme-text: white;
+  --dark-theme-text: white;
+  --light-theme-gray: #cccccc;
+  --light-theme-hover: #dddddd;
+  --dark-theme-black: #333333;
+}
+
 .App {
   font-family: sans-serif;
   text-align: center;
@@ -25,18 +34,23 @@ button {
   transition: background-color 0.3s;
   background-color: transparent;
   cursor: pointer;
+  transition: background-color 250ms;
+}
+
+.light-button {
+  color: var(--light-theme-text);
 }
 
 .light-button i {
-  border: solid black;
+  border: solid var(--light-theme-text);
 }
 
 .dark-button {
-  color: white;
+  color: var(--dark-theme-text);
 }
 
 .dark-button i {
-  border: solid white;
+  border: solid var(--dark-theme-text);
 }
 
 button:disabled {
@@ -45,27 +59,27 @@ button:disabled {
 }
 
 .light-button:hover {
-  background-color: #dddddd;
+  background-color: var(--light-theme-hover);
 }
 
 .dark-button:hover {
-  background-color: #333333;
+  background-color: var(--dark-theme-black);
 }
 
 .light-button:disabled {
-  color: #cccccc;
+  color: var(--light-theme-gray);
   background-color: transparent;
 }
 
 .light-button:disabled i {
-  border: solid #cccccc;
+  border: solid var(--light-theme-gray);
 }
 
 .dark-button:disabled {
-  color: #333333;
+  color: var(--dark-theme-black);
   background-color: transparent;
 }
 
 .dark-button:disabled i {
-  border: solid #333333;
+  border: solid var(--dark-theme-black);
 }

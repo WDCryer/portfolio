@@ -6,7 +6,7 @@ import Header from "./components/Header";
 
 const PortfolioPage = lazy(() => import("./components/PortfolioPage"));
 
-function App() {
+const App = () => {
   return (
     <StrictMode>
       <div className="App">
@@ -18,7 +18,7 @@ function App() {
       </div>
     </StrictMode>
   );
-}
+};
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(<App />, rootElement);
