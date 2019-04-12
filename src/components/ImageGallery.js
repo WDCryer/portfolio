@@ -1,5 +1,4 @@
 import React, {
-  Fragment,
   memo,
   useEffect,
   useMemo,
@@ -18,7 +17,9 @@ import { goToImage, setTotalImages } from "../actions/image-gallery";
 import useURLParams from "../hooks/useURLParams";
 import { modalIsOpen, modalIsClosed } from "../actions/modal-is-open";
 
+
 const ImageGallery = ({ images }) => {
+  const NO_IMAGE = -1;
   const [params] = useURLParams();
   const { currentPage, hasPreviousPage, hasNextPage } = useContext(
     PaginationContext
@@ -26,28 +27,31 @@ const ImageGallery = ({ images }) => {
   const { isModalOpen, dispatch: dispatchModalAction } = useContext(
     ModalIsOpenContext
   );
-  const initialImage = useMemo(() => params.get("image") - 1, [params]);
+  const initialImage = useMemo(() => params.get("image") - 1, [params.get("image")]);
   const totalImages = useMemo(() => images[currentPage - 1].length, [
     images,
     currentPage
   ]);
   const [imageGallery, dispatchImageAction] = useReducer(ImageGalleryReducer, {
-    currentImage: isNaN(initialImage) ? -1 : initialImage,
-
+    currentImage: isNaN(initialImage) ? NO_IMAGE : initialImage,
     hasPreviousImage: initialImage > 0 || hasPreviousPage,
     hasNextImage: initialImage < totalImages || hasNextPage,
-    totalImages
+    totalImages,
+    imagesPerPage: images[0].length
   });
+  const currentImage = useMemo(
+    () => images[currentPage - 1][imageGallery.currentImage] || {},
+    [images, currentPage, imageGallery.currentImage]
+  );
 
   useEffect(() => {
-    const totalImages = images[currentPage - 1].length;
     dispatchImageAction(setTotalImages(totalImages));
-  }, [images, currentPage]);
+  }, [totalImages]);
 
   useEffect(() => {
-    if (imageGallery.currentImage > -1 && !isModalOpen) {
+    if (imageGallery.currentImage > NO_IMAGE && !isModalOpen) {
       dispatchModalAction(modalIsOpen());
-    } else if (imageGallery.currentImage <= -1 && isModalOpen) {
+    } else if (imageGallery.currentImage <= NO_IMAGE && isModalOpen) {
       dispatchModalAction(modalIsClosed());
     }
   }, [imageGallery.currentImage, isModalOpen]);
@@ -56,9 +60,8 @@ const ImageGallery = ({ images }) => {
     index => dispatchImageAction(goToImage(index)),
     [dispatchImageAction, dispatchModalAction]
   );
-  const closeModal = useCallback(() => dispatchImageAction(goToImage(-1)), [
-    dispatchImageAction,
-    dispatchModalAction
+  const closeModal = useCallback(() => dispatchImageAction(goToImage(NO_IMAGE)), [
+    dispatchImageAction
   ]);
 
   return (
@@ -67,24 +70,23 @@ const ImageGallery = ({ images }) => {
     >
       <div className={styles.imageGallery}>
         {images[currentPage - 1].map(
-          ({ imageSrc, thumbnailSrc, description }, i) => (
-            <Fragment key={`fragment-${i}`}>
-              <Thumbnail
-                src={thumbnailSrc}
-                alt={description}
-                title={description}
-                onClick={() => showModal(i)}
-              />
-              {imageGallery.currentImage === i && (
-                <ImageModal
-                  src={imageSrc}
-                  alt={description}
-                  title={description}
-                  onClose={closeModal}
-                />
-              )}
-            </Fragment>
+          ({ thumbnailSrc, description }, i) => (
+            <Thumbnail
+              key={`thumbnail-${i}`}
+              src={thumbnailSrc}
+              alt={description}
+              title={description}
+              onClick={() => showModal(i)}
+            />
           )
+        )}
+        {isModalOpen && (
+          <ImageModal
+            src={currentImage.imageSrc}
+            alt={currentImage.description}
+            title={currentImage.description}
+            onClose={closeModal}
+          />
         )}
       </div>
     </ImageGalleryContext.Provider>

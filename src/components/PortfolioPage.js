@@ -1,6 +1,5 @@
 import React, { memo, useReducer } from "react";
 import PaginationContext from "../contexts/pagination";
-import ModalIsOpenContext from "../contexts/modal-is-open";
 import ImageGallery from "./ImageGallery";
 import Pagination from "./Pagination";
 import images from "../data/images";

@@ -2,8 +2,7 @@ import React, {
   memo,
   useCallback,
   useContext,
-  useEffect,
-  useMemo
+  useEffect
 } from "react";
 import Modal from "./Modal";
 import styles from "./ImageModal.module.css";
@@ -15,17 +14,15 @@ import {
 import ImageGalleryContext from "../contexts/image-gallery";
 import PaginationContext from "../contexts/pagination";
 import { goToNextPage, goToPreviousPage } from "../actions/pagination";
-import useImageLoader from "../hooks/useImageLoader";
-import useTimeout from "../hooks/useTimeout";
 import Arrow from "./Arrow";
-import Loader from "./Loader";
+import ImageLoader from "./ImageLoader";
 
 const ImageModal = ({ src, alt, title, ...props }) => {
   const {
     dispatch: dispatchImageAction,
     hasPreviousImage,
     hasNextImage,
-    totalImages
+    imagesPerPage
   } = useContext(ImageGalleryContext);
   const {
     dispatch: dispatchPageAction,
@@ -37,14 +34,14 @@ const ImageModal = ({ src, alt, title, ...props }) => {
       dispatchImageAction(goToPreviousImage());
     } else if (hasPreviousPage) {
       dispatchPageAction(goToPreviousPage());
-      dispatchImageAction(goToImage(totalImages - 1));
+      dispatchImageAction(goToImage(imagesPerPage - 1));
     }
   }, [
-    hasPreviousImage,
-    dispatchImageAction,
-    hasPreviousPage,
-    dispatchPageAction
-  ]);
+      hasPreviousImage,
+      dispatchImageAction,
+      hasPreviousPage,
+      dispatchPageAction
+    ]);
 
   const goToNext = useCallback(() => {
     if (hasNextImage) {
@@ -74,28 +71,20 @@ const ImageModal = ({ src, alt, title, ...props }) => {
     };
   }, [handleKeyDown]);
 
-  const isTimeToShowLoader = useTimeout(250);
-  const source = useImageLoader(src);
-
-  const showLoader = useMemo(() => !source && isTimeToShowLoader, [
-    isTimeToShowLoader,
-    source
-  ]);
-
   return (
     <Modal
       {...props}
       className={styles.imageModal}
-      style={{ backgroundImage: `url(${src})` }}
     >
       <button
         className={`${styles.navigationButton} light-button`}
         onClick={goToPrevious}
-        disabled={!hasPreviousImage && !hasPreviousPage}
+        disabled={!hasPreviousImage && !hasPreviousPage
+        }
       >
         <Arrow direction="left" size="1rem" className={styles.arrow} />
       </button>
-      {showLoader ? <Loader /> : undefined}
+      < ImageLoader src={src} alt={alt} title={title} className={styles.image} />
       <button
         className={`${styles.navigationButton} light-button`}
         onClick={goToNext}
@@ -103,8 +92,8 @@ const ImageModal = ({ src, alt, title, ...props }) => {
       >
         <Arrow direction="right" size="1rem" className={styles.arrow} />
       </button>
-    </Modal>
-  );
-};
-
-export default memo(ImageModal);
+      < /Modal>
+    );
+  };
+  
+  export default memo(ImageModal);
