@@ -6,7 +6,6 @@ import Pagination from "./Pagination";
 import images from "../data/images";
 import useURLParams from "../hooks/useURLParams";
 import PaginationReducer from "../reducers/pagination";
-import ModalIsOpenReducer from "../reducers/modal-is-open";
 
 const PortfolioPage = () => {
   const [params] = useURLParams();
@@ -18,22 +17,14 @@ const PortfolioPage = () => {
     hasPreviousPage: initialPage > 1,
     hasNextPage: initialPage < totalPages
   });
-  const [isModalOpen, dispatchModalAction] = useReducer(
-    ModalIsOpenReducer,
-    false
-  );
   return (
     <PaginationContext.Provider
       value={{ ...pagination, dispatch: dispatchPageAction }}
     >
-      <ModalIsOpenContext.Provider
-        value={{ isModalOpen, dispatch: dispatchModalAction }}
-      >
-        <section>
-          <ImageGallery images={images} />
-          <Pagination />
-        </section>
-      </ModalIsOpenContext.Provider>
+      <section>
+        <ImageGallery images={images} />
+        <Pagination />
+      </section>
     </PaginationContext.Provider>
   );
 };
