@@ -10,6 +10,7 @@ const useImageLoader = src => {
     image.src = src;
 
     return () => {
+      setSource(undefined);
       image.removeEventListener("load", handleOnLoad);
       image.src = "";
     };

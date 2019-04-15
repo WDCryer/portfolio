@@ -1,5 +1,9 @@
 const images = [
   {
+    fileName: "suri-boy",
+    description: "A Suri boy drawn from a photo"
+  },
+  {
     fileName: "ethiopian-woman",
     description: "Hamar woman drawn from a photo by David Schweitzer"
   },
