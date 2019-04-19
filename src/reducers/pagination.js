@@ -4,16 +4,16 @@ import useURLParams from "../hooks/useURLParams";
 const reducer = (state, action) => {
   const { currentPage, totalPages } = state;
   const setPage = page => {
-    const currentPage = Math.max(1, Math.min(totalPages, page));
+    const currentPage = Math.max(0, Math.min(totalPages - 1, page));
     const [urlParams, setURLParams] = useURLParams();
-    urlParams.set("page", currentPage);
+    urlParams.set("page", currentPage + 1);
     setURLParams(urlParams);
 
     return {
       ...state,
       currentPage,
-      hasPreviousPage: currentPage > 1,
-      hasNextPage: currentPage < totalPages
+      hasPreviousPage: currentPage > 0,
+      hasNextPage: currentPage < totalPages - 1
     };
   };
 

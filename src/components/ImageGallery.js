@@ -9,74 +9,69 @@ import React, {
 import styles from "./ImageGallery.module.css";
 import Thumbnail from "./Thumbnail";
 import PaginationContext from "../contexts/pagination";
-import ModalIsOpenContext from "../contexts/modal-is-open";
+import openModalContext from "../contexts/modal-is-open";
 import ImageModal from "./ImageModal";
 import ImageGalleryContext from "../contexts/image-gallery";
 import ImageGalleryReducer from "../reducers/image-gallery";
 import { goToImage, setTotalImages } from "../actions/image-gallery";
 import useURLParams from "../hooks/useURLParams";
-import { modalIsOpen, modalIsClosed } from "../actions/modal-is-open";
+import { openModal, closeModal } from "../actions/modal-is-open";
 
 
 const ImageGallery = ({ images }) => {
   const NO_IMAGE = -1;
   const [params] = useURLParams();
-  const { currentPage, hasPreviousPage, hasNextPage } = useContext(
+  const { hasPreviousPage, hasNextPage } = useContext(
     PaginationContext
   );
   const { isModalOpen, dispatch: dispatchModalAction } = useContext(
-    ModalIsOpenContext
+    openModalContext
   );
-  const initialImage = useMemo(() => params.get("image") - 1, [params.get("image")]);
-  const totalImages = useMemo(() => images[currentPage - 1].length, [
-    images,
-    currentPage
-  ]);
+  const initialImage = Number(params.get('image'));
   const [imageGallery, dispatchImageAction] = useReducer(ImageGalleryReducer, {
-    currentImage: isNaN(initialImage) ? NO_IMAGE : initialImage,
+    currentImage: isNaN(initialImage) ? NO_IMAGE : initialImage - 1,
     hasPreviousImage: initialImage > 0 || hasPreviousPage,
-    hasNextImage: initialImage < totalImages || hasNextPage,
-    totalImages,
-    imagesPerPage: images[0].length
+    hasNextImage: initialImage < images.length || hasNextPage,
+    totalImages: images.length
   });
   const currentImage = useMemo(
-    () => images[currentPage - 1][imageGallery.currentImage] || {},
-    [images, currentPage, imageGallery.currentImage]
+    () => images[imageGallery.currentImage] || {},
+    [images, imageGallery.currentImage]
   );
 
   useEffect(() => {
-    dispatchImageAction(setTotalImages(totalImages));
-  }, [totalImages]);
+    dispatchImageAction(setTotalImages(images.length));
+  }, [images.length]);
 
   useEffect(() => {
     if (imageGallery.currentImage > NO_IMAGE && !isModalOpen) {
-      dispatchModalAction(modalIsOpen());
+      dispatchModalAction(openModal());
     } else if (imageGallery.currentImage <= NO_IMAGE && isModalOpen) {
-      dispatchModalAction(modalIsClosed());
+      dispatchModalAction(closeModal());
     }
   }, [imageGallery.currentImage, isModalOpen]);
 
-  const showModal = useCallback(
+  const showImage = useCallback(
     index => dispatchImageAction(goToImage(index)),
-    [dispatchImageAction, dispatchModalAction]
+    [dispatchImageAction]
   );
-  const closeModal = useCallback(() => dispatchImageAction(goToImage(NO_IMAGE)), [
-    dispatchImageAction
-  ]);
+  const hideImage = useCallback(
+    () => dispatchImageAction(goToImage(NO_IMAGE)),
+    [dispatchImageAction]);
 
   return (
     <ImageGalleryContext.Provider
       value={{ ...imageGallery, dispatch: dispatchImageAction }}
     >
       <div className={styles.imageGallery}>
-        {images[currentPage - 1].map(
+        {images.map(
           ({ thumbnailSrc, description }, i) => (
             <Thumbnail
               key={`thumbnail-${i}`}
               src={thumbnailSrc}
               alt={description}
               title={description}
-              onClick={() => showModal(i)}
+              onClick={() => showImage(i)}
             />
           )
         )}
@@ -85,7 +80,7 @@ const ImageGallery = ({ images }) => {
             src={currentImage.imageSrc}
             alt={currentImage.description}
             title={currentImage.description}
-            onClose={closeModal}
+            onClose={hideImage}
           />
         )}
       </div>

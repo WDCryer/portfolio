@@ -22,28 +22,33 @@ const ImageModal = ({ src, alt, title, ...props }) => {
     dispatch: dispatchImageAction,
     hasPreviousImage,
     hasNextImage,
-    imagesPerPage
   } = useContext(ImageGalleryContext);
   const {
     dispatch: dispatchPageAction,
     hasPreviousPage,
-    hasNextPage
+    hasNextPage,
+    perPage
   } = useContext(PaginationContext);
-  const goToPrevious = useCallback(() => {
+  const goToPrevious = useCallback(event => {
+    event.stopPropagation();
+
     if (hasPreviousImage) {
       dispatchImageAction(goToPreviousImage());
     } else if (hasPreviousPage) {
       dispatchPageAction(goToPreviousPage());
-      dispatchImageAction(goToImage(imagesPerPage - 1));
+      dispatchImageAction(goToImage(perPage - 1));
     }
   }, [
       hasPreviousImage,
       dispatchImageAction,
       hasPreviousPage,
-      dispatchPageAction
+      dispatchPageAction,
+      perPage
     ]);
 
-  const goToNext = useCallback(() => {
+  const goToNext = useCallback(event => {
+    event.stopPropagation();
+
     if (hasNextImage) {
       dispatchImageAction(goToNextImage());
     } else if (hasNextPage) {
@@ -55,9 +60,9 @@ const ImageModal = ({ src, alt, title, ...props }) => {
   const handleKeyDown = useCallback(
     event => {
       if (event.key === "ArrowLeft") {
-        goToPrevious();
+        goToPrevious(event);
       } else if (event.key === "ArrowRight") {
-        goToNext();
+        goToNext(event);
       }
     },
     [goToPrevious, goToNext]

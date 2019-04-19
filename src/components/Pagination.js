@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import styles from "./Pagination.module.css";
 import PaginationContext from "../contexts/pagination";
-import ModalIsOpenContext from "../contexts/modal-is-open";
+import openModalContext from "../contexts/modal-is-open";
 import {
   goToPage,
   goToPreviousPage,
@@ -23,7 +23,7 @@ const Pagination = x => {
     hasNextPage,
     dispatch
   } = useContext(PaginationContext);
-  const { isModalOpen } = useContext(ModalIsOpenContext);
+  const { isModalOpen } = useContext(openModalContext);
   const pages = useMemo(
     () => new Array(totalPages).fill(0).map((_, i) => i + 1),
     [totalPages]

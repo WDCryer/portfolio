@@ -1,10 +1,10 @@
-export const MODAL_IS_OPEN = "MODAL_IS_OPEN";
-export const MODAL_IS_CLOSED = "MODAL_IS_CLOSED";
+export const OPEN_MODAL = "OPEN_MODAL";
+export const CLOSE_MODAL = "CLOSE_MODAL";
 
-export const modalIsOpen = () => ({
-  type: MODAL_IS_OPEN
+export const openModal = () => ({
+  type: OPEN_MODAL
 });
 
-export const modalIsClosed = () => ({
-  type: MODAL_IS_CLOSED
+export const closeModal = () => ({
+  type: CLOSE_MODAL
 });

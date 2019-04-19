@@ -1,10 +1,10 @@
-import { MODAL_IS_OPEN, MODAL_IS_CLOSED } from "../actions/modal-is-open";
+import { OPEN_MODAL, CLOSE_MODAL } from "../actions/modal-is-open";
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case MODAL_IS_OPEN:
+    case OPEN_MODAL:
       return true;
-    case MODAL_IS_CLOSED:
+    case CLOSE_MODAL:
       return false;
     default:
       return state;

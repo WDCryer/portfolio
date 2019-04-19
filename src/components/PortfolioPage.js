@@ -8,20 +8,22 @@ import PaginationReducer from "../reducers/pagination";
 
 const PortfolioPage = () => {
   const [params] = useURLParams();
-  const initialPage = Number(params.get("page")) || 1;
+  const currentPage = Number(params.get("page")) - 1 || 0;
   const totalPages = images.length;
-  const [pagination, dispatchPageAction] = useReducer(PaginationReducer, {
-    currentPage: initialPage,
+  const [pagination, dispatch] = useReducer(PaginationReducer, {
+    currentPage,
     totalPages,
-    hasPreviousPage: initialPage > 1,
-    hasNextPage: initialPage < totalPages
+    hasPreviousPage: currentPage > 0,
+    hasNextPage: currentPage < totalPages - 1,
+    perPage: images[0].length
   });
+
   return (
     <PaginationContext.Provider
-      value={{ ...pagination, dispatch: dispatchPageAction }}
+      value={{ ...pagination, dispatch }}
     >
       <section>
-        <ImageGallery images={images} />
+        <ImageGallery images={images[pagination.currentPage]} />
         <Pagination />
       </section>
     </PaginationContext.Provider>
