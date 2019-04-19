@@ -1,9 +1,4 @@
-import React, {
-  memo,
-  useCallback,
-  useContext,
-  useEffect
-} from "react";
+import React, { memo, useCallback, useContext, useEffect } from "react";
 import Modal from "./Modal";
 import styles from "./ImageModal.module.css";
 import {
@@ -77,19 +72,15 @@ const ImageModal = ({ src, alt, title, ...props }) => {
   }, [handleKeyDown]);
 
   return (
-    <Modal
-      {...props}
-      className={styles.imageModal}
-    >
+    <Modal {...props} className={styles.imageModal}>
       <button
         className={`${styles.navigationButton} light-button`}
         onClick={goToPrevious}
-        disabled={!hasPreviousImage && !hasPreviousPage
-        }
+        disabled={!hasPreviousImage && !hasPreviousPage}
       >
         <Arrow direction="left" size="1rem" className={styles.arrow} />
       </button>
-      < ImageLoader src={src} alt={alt} title={title} className={styles.image} />
+      <ImageLoader src={src} alt={alt} title={title} className={styles.image} />
       <button
         className={`${styles.navigationButton} light-button`}
         onClick={goToNext}
@@ -97,8 +88,8 @@ const ImageModal = ({ src, alt, title, ...props }) => {
       >
         <Arrow direction="right" size="1rem" className={styles.arrow} />
       </button>
-      < /Modal>
-    );
-  };
-  
-  export default memo(ImageModal);
+    </Modal>
+  );
+};
+
+export default memo(ImageModal);

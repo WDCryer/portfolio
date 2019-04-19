@@ -10,13 +10,15 @@
     "react-scripts": "^2.1.8"
   },
   "devDependencies": {
+    "jimp": "^0.6.1",
     "typescript": "^3.3.4000"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "images": "node scripts/image-processing.js"
   },
   "browserslist": [
     ">0.2%",
