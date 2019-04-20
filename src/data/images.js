@@ -106,8 +106,9 @@ const imageMetadata = [
     fileName: "sci-fi-dress",
     description: "A sci fi outfit"
   }
-].map(image => ({
+].map((image, i) => ({
   ...image,
+  id: i,
   imageSrc: require(`../images/${image.fileName}.jpg`),
   thumbnailSrc: require(`../images/${image.fileName}_tn.jpg`)
 }));

@@ -1,4 +1,5 @@
 .modal {
+  composes: fade-in from global;
   height: 100vh;
   width: 100vw;
   display: flex;

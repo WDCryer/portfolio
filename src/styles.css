@@ -7,11 +7,6 @@
   --dark-theme-black: #333333;
 }
 
-.App {
-  font-family: sans-serif;
-  text-align: center;
-}
-
 #modal {
   position: fixed;
   top: 0;
@@ -20,9 +15,16 @@
 }
 
 body {
+  font-family: sans-serif;
+  text-align: center;
   margin: 0;
   padding: 0;
 }
+
+main {
+  transition: filter 0.5s;
+}
+
 button {
   padding: 1rem;
   margin: 0.5rem;
@@ -86,4 +88,20 @@ button:disabled {
 
 .dark-button:disabled i {
   border: solid var(--dark-theme-black);
+}
+
+.fade-in {
+  animation-name: fade-in;
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to: {
+    opacity: 1;
+  }
 }

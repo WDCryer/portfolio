@@ -1,4 +1,6 @@
 .spinner {
+  composes: fade-in from global;
+  animation-delay: 1s;
   color: official;
   display: inline-block;
   position: relative;

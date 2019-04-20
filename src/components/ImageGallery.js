@@ -57,9 +57,9 @@ const ImageGallery = ({ images }) => {
       value={{ ...imageGallery, dispatch: dispatchImageAction }}
     >
       <div className={styles.imageGallery}>
-        {images.map(({ thumbnailSrc, description }, i) => (
+        {images.map(({ thumbnailSrc, description, id }, i) => (
           <Thumbnail
-            key={`thumbnail-${i}`}
+            key={`thumbnail-${id}-${i}`}
             src={thumbnailSrc}
             alt={description}
             title={description}
@@ -68,6 +68,7 @@ const ImageGallery = ({ images }) => {
         ))}
         {isModalOpen && (
           <ImageModal
+            id={openImage.id}
             src={openImage.imageSrc}
             alt={openImage.description}
             title={openImage.description}

@@ -5,6 +5,7 @@
 }
 
 .image {
+  composes: fade-in from global;
   object-fit: scale-down;
   max-height: 100vh;
   max-width: 100vw;

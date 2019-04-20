@@ -10,18 +10,17 @@ const PortfolioPage = lazy(() => import("./components/PortfolioPage"));
 
 const App = () => {
   const [isModalOpen, dispatch] = useReducer(openModalReducer, false);
+
   return (
     <StrictMode>
       <openModalContext.Provider value={{ isModalOpen, dispatch }}>
-        <div className="App">
-          <section id="modal" />
-          <main className={isModalOpen ? "blur" : ""}>
-            <Header />
-            <Suspense fallback={<Loader />}>
-              <PortfolioPage />
-            </Suspense>
-          </main>
-        </div>
+        <section id="modal" />
+        <main className={isModalOpen ? "blur" : ""}>
+          <Header />
+          <Suspense fallback={<Loader />}>
+            <PortfolioPage />
+          </Suspense>
+        </main>
       </openModalContext.Provider>
     </StrictMode>
   );
