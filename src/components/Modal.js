@@ -1,26 +1,11 @@
-import React, { memo, useCallback, useEffect } from "react";
+import React, { memo } from "react";
 import { createPortal } from "react-dom";
 import styles from "./Modal.module.css";
 import CloseButton from "./CloseButton";
+import useKeyDown from "../hooks/useKeyDown";
 
 const Modal = ({ children, onClose, className = "", ...props }) => {
-  const handleKeyDown = useCallback(
-    event => {
-      if (event.key === "Escape") {
-        event.preventDefault();
-        onClose();
-      }
-    },
-    [onClose]
-  );
-
-  useEffect(() => {
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [handleKeyDown]);
+  useKeyDown("Escape", onClose);
 
   return createPortal(
     <div

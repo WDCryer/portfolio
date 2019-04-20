@@ -1,10 +1,4 @@
-import React, {
-  memo,
-  useContext,
-  useCallback,
-  useEffect,
-  useMemo
-} from "react";
+import React, { memo, useContext, useCallback, useMemo } from "react";
 import styles from "./Pagination.module.css";
 import PaginationContext from "../contexts/pagination";
 import openModalContext from "../contexts/modal-is-open";
@@ -14,8 +8,9 @@ import {
   goToNextPage
 } from "../actions/pagination";
 import Arrow from "./Arrow";
+import useKeyDown from "../hooks/useKeyDown";
 
-const Pagination = x => {
+const Pagination = () => {
   const {
     currentPage,
     totalPages,
@@ -24,14 +19,15 @@ const Pagination = x => {
     dispatch
   } = useContext(PaginationContext);
   const { isModalOpen } = useContext(openModalContext);
-  const pages = useMemo(
-    () => new Array(totalPages).fill(0).map((_, i) => i + 1),
-    [totalPages]
-  );
+  const pages = useMemo(() => new Array(totalPages).fill(0).map((_, i) => i), [
+    totalPages
+  ]);
+
   const onPageClick = useCallback(
     event => dispatch(goToPage(Number(event.target.value))),
     []
   );
+
   const onPreviousPageClick = useCallback(
     () => dispatch(goToPreviousPage()),
     []
@@ -39,30 +35,20 @@ const Pagination = x => {
 
   const onNextPageClick = useCallback(() => dispatch(goToNextPage()), []);
 
-  const handleKeyDown = useCallback(
-    event => {
-      if (!isModalOpen) {
-        if (event.key === "ArrowLeft" && hasPreviousPage) {
-          onPreviousPageClick();
-        } else if (event.key === "ArrowRight" && hasNextPage) {
-          onNextPageClick();
-        }
-      }
-    },
-    [
-      isModalOpen,
-      hasPreviousPage,
-      onPreviousPageClick,
-      hasNextPage,
-      onNextPageClick
-    ]
-  );
+  const handleLeftArrowDown = useCallback(() => {
+    if (!isModalOpen && hasPreviousPage) {
+      onPreviousPageClick();
+    }
+  }, [isModalOpen, hasPreviousPage]);
 
-  useEffect(() => {
-    window.addEventListener("keydown", handleKeyDown);
+  const handleRightArrowDown = useCallback(() => {
+    if (!isModalOpen && hasNextPage) {
+      onNextPageClick();
+    }
+  }, [isModalOpen, hasNextPage]);
 
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [handleKeyDown]);
+  useKeyDown("ArrowLeft", handleLeftArrowDown);
+  useKeyDown("ArrowRight", handleRightArrowDown);
 
   return (
     <ul className={styles.pagination}>
@@ -83,7 +69,7 @@ const Pagination = x => {
             disabled={page === currentPage}
             onClick={onPageClick}
           >
-            {page}
+            {page + 1}
           </button>
         </li>
       ))}

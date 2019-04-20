@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 import styles from "./Loader.module.css";
 
-const Loader = props => (
+const Loader = () => (
   <div className={styles.spinner}>
     <div />
     <div />

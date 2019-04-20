@@ -1,22 +1,22 @@
 import { useState, useEffect, useCallback } from "react";
 
 const useImageLoader = src => {
-  const [source, setSource] = useState();
-  const handleOnLoad = useCallback(() => setSource(src), [src]);
+  const [isLoading, setIsLoading] = useState(true);
+  const handleOnLoad = useCallback(() => setIsLoading(false), []);
 
   useEffect(() => {
+    setIsLoading(true);
     const image = new Image();
     image.addEventListener("load", handleOnLoad);
     image.src = src;
 
     return () => {
-      setSource(undefined);
       image.removeEventListener("load", handleOnLoad);
       image.src = "";
     };
   }, [src]);
 
-  return source;
+  return isLoading ? null : src;
 };
 
 export default useImageLoader;

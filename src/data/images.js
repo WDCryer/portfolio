@@ -1,4 +1,4 @@
-const images = [
+const imageMetadata = [
   {
     fileName: "suri-boy",
     description: "A Suri boy drawn from a photo"
@@ -112,16 +112,10 @@ const images = [
   thumbnailSrc: require(`../images/${image.fileName}_tn.jpg`)
 }));
 const totalImages = 65;
-const perPage = 24;
-const paginatedImages = [];
-let page;
+const images = [];
 
 for (let i = 0; i < totalImages; i++) {
-  if (i % perPage === 0) {
-    page = [];
-    paginatedImages.push(page);
-  }
-  page.push(images[i % images.length]);
+  images.push(imageMetadata[i % imageMetadata.length]);
 }
 
-export default paginatedImages;
+export default images;
