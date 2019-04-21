@@ -1,7 +1,7 @@
 import React, { memo, useContext, useCallback, useMemo } from "react";
 import styles from "./Pagination.module.css";
 import PaginationContext from "../contexts/pagination";
-import openModalContext from "../contexts/modal-is-open";
+import OpenModalContext from "../contexts/modal-is-open";
 import {
   goToPage,
   goToPreviousPage,
@@ -18,7 +18,7 @@ const Pagination = () => {
     hasNextPage,
     dispatch
   } = useContext(PaginationContext);
-  const { isModalOpen } = useContext(openModalContext);
+  const { isModalOpen } = useContext(OpenModalContext);
   const pages = useMemo(() => new Array(totalPages).fill(0).map((_, i) => i), [
     totalPages
   ]);
@@ -57,6 +57,7 @@ const Pagination = () => {
           disabled={!hasPreviousPage}
           onClick={onPreviousPageClick}
           className="light-button"
+          data-testid={"previous-button"}
         >
           <Arrow direction="left" />
         </button>
@@ -68,6 +69,7 @@ const Pagination = () => {
             value={page}
             disabled={page === currentPage}
             onClick={onPageClick}
+            data-testid={`page-${page + 1}-button`}
           >
             {page + 1}
           </button>
@@ -78,6 +80,7 @@ const Pagination = () => {
           disabled={!hasNextPage}
           onClick={onNextPageClick}
           className="light-button"
+          data-testid={"next-button"}
         >
           <Arrow />
         </button>

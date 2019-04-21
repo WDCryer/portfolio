@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import "./styles.css";
 import Loader from "./components/Loader";
 import Header from "./components/Header";
-import openModalContext from "./contexts/modal-is-open";
+import OpenModalContext from "./contexts/modal-is-open";
 import openModalReducer from "./reducers/modal-is-open";
 
 const PortfolioPage = lazy(() => import("./components/PortfolioPage"));
@@ -13,7 +13,7 @@ const App = () => {
 
   return (
     <StrictMode>
-      <openModalContext.Provider value={{ isModalOpen, dispatch }}>
+      <OpenModalContext.Provider value={{ isModalOpen, dispatch }}>
         <section id="modal" />
         <main className={isModalOpen ? "blur" : ""}>
           <Header />
@@ -21,7 +21,7 @@ const App = () => {
             <PortfolioPage />
           </Suspense>
         </main>
-      </openModalContext.Provider>
+      </OpenModalContext.Provider>
     </StrictMode>
   );
 };

@@ -12,6 +12,7 @@
 }
 
 .navigationButton {
+  composes: light-button from global;
   opacity: 0.5;
   padding: 1rem;
   transition: opacity 250ms, background-color 250ms;

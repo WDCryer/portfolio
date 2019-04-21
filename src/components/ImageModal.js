@@ -15,7 +15,7 @@ const ImageModal = ({ id, src, alt, title, ...props }) => {
   return (
     <Modal {...props} className={styles.imageModal}>
       <button
-        className={`${styles.navigationButton} light-button`}
+        className={styles.navigationButton}
         onClick={goToPrevious}
         disabled={!hasPrevious}
       >
@@ -29,7 +29,7 @@ const ImageModal = ({ id, src, alt, title, ...props }) => {
         className={styles.image}
       />
       <button
-        className={`${styles.navigationButton} light-button`}
+        className={styles.navigationButton}
         onClick={goToNext}
         disabled={!hasNext}
       >

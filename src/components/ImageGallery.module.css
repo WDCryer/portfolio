@@ -29,3 +29,18 @@
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+.thumbnail {
+  composes: fade-in from global;
+  height: 128px;
+  width: 128px;
+  object-fit: contain;
+  object-position: center;
+  display: inline-block;
+  align-self: center;
+  justify-self: center;
+  position: relative;
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 5%);
+  border-radius: 1rem;
+}

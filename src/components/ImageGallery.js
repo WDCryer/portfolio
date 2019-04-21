@@ -7,8 +7,8 @@ import React, {
   useContext
 } from "react";
 import styles from "./ImageGallery.module.css";
-import Thumbnail from "./Thumbnail";
-import openModalContext from "../contexts/modal-is-open";
+import OpenModalContext from "../contexts/modal-is-open";
+import ImageLoader from "./ImageLoader";
 import ImageModal from "./ImageModal";
 import ImageGalleryContext from "../contexts/image-gallery";
 import ImageGalleryReducer from "../reducers/image-gallery";
@@ -18,7 +18,7 @@ import { openModal, closeModal } from "../actions/modal-is-open";
 
 const ImageGallery = ({ images }) => {
   const { isModalOpen, dispatch: dispatchModalAction } = useContext(
-    openModalContext
+    OpenModalContext
   );
   const [imageParameter] = useURLParam("image", 0);
   const [imageGallery, dispatchImageAction] = useReducer(ImageGalleryReducer, {
@@ -45,7 +45,7 @@ const ImageGallery = ({ images }) => {
   }, [imageParameter, isModalOpen]);
 
   const showImage = useCallback(
-    index => dispatchImageAction(goToImage(index)),
+    index => () => dispatchImageAction(goToImage(index)),
     [dispatchImageAction]
   );
   const hideImage = useCallback(() => dispatchImageAction(goToImage(-1)), [
@@ -58,12 +58,13 @@ const ImageGallery = ({ images }) => {
     >
       <div className={styles.imageGallery}>
         {images.map(({ thumbnailSrc, description, id }, i) => (
-          <Thumbnail
+          <ImageLoader
             key={`thumbnail-${id}-${i}`}
             src={thumbnailSrc}
             alt={description}
             title={description}
-            onClick={() => showImage(i)}
+            className={styles.thumbnail}
+            onClick={showImage(i)}
           />
         ))}
         {isModalOpen && (
