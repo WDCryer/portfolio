@@ -1,11 +1,6 @@
 import React from "react";
-import {
-  render,
-  prettyDOM,
-  fireEvent,
-  getByTestId
-} from "react-testing-library";
-import { ModalForTests as Modal } from "./Modal";
+import { render, fireEvent, getByTestId } from "react-testing-library";
+import Modal from "./Modal";
 
 describe("Modal component", () => {
   let onClose;

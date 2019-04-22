@@ -25,6 +25,7 @@ main {
   transition: filter 0.5s;
 }
 
+a[type="button"],
 button {
   padding: 1rem;
   margin: 0.5rem;
@@ -59,9 +60,11 @@ button {
   border: solid var(--dark-theme-text);
 }
 
+a[type="button"][disabled],
 button:disabled {
   cursor: not-allowed;
   background-color: transparent;
+  pointer-events: none;
 }
 
 .light-button:hover {

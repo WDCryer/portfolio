@@ -1,9 +1,3 @@
-.imageModal {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
 .image {
   composes: fade-in from global;
   object-fit: scale-down;
@@ -22,7 +16,7 @@
   opacity: 1;
 }
 
-.navigationButton:disabled {
+.navigationButton[disabled] {
   opacity: 0;
 }
 

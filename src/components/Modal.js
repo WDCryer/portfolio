@@ -1,10 +1,10 @@
-import React, { useCallback, useContext, memo } from "react";
-import { createPortal } from "react-dom";
-import styles from "./Modal.module.css";
+import React, { useCallback, useContext, useEffect, memo } from "react";
 import CloseButton from "./CloseButton";
+import ModalContext from "../contexts/Modal";
 import useKeyDown from "../hooks/useKeyDown";
+import styles from "./Modal.module.css";
 
-const Modal = ({ children, onClose, className = "", ...props }) => {
+const Modal = ({ onClose, children }) => {
   useKeyDown("Escape", onClose);
 
   const handleCloseClick = useCallback(
@@ -15,12 +15,18 @@ const Modal = ({ children, onClose, className = "", ...props }) => {
     [onClose]
   );
 
+  const [, setIsModalOpen] = useContext(ModalContext);
+
+  useEffect(() => {
+    setIsModalOpen(true);
+    return () => setIsModalOpen(false);
+  }, []);
+
   return (
-    <div
-      className={`${styles.modal} ${className}`}
+    <section
+      className={styles.modal}
       onClick={handleCloseClick}
       data-testid="modal-container"
-      {...props}
     >
       <CloseButton
         onClick={handleCloseClick}
@@ -28,12 +34,8 @@ const Modal = ({ children, onClose, className = "", ...props }) => {
         data-testid="close-button"
       />
       {children}
-    </div>
+    </section>
   );
 };
 
-const ModalWithPortal = props =>
-  createPortal(<Modal {...props} />, document.getElementById("modal"));
-
-export { Modal as ModalForTests };
-export default memo(ModalWithPortal);
+export default memo(Modal);
