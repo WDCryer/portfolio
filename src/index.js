@@ -1,29 +1,28 @@
-import React, { StrictMode, Suspense, lazy, useReducer } from "react";
+import React, { StrictMode, useState } from "react";
 import ReactDOM from "react-dom";
+import { BrowserRouter } from "react-router-dom";
 import "./styles.css";
-import Loader from "./components/Loader";
+import { getAll } from "./api/images";
+import ModalContext from "./contexts/Modal";
 import Header from "./components/Header";
-import OpenModalContext from "./contexts/modal-is-open";
-import openModalReducer from "./reducers/modal-is-open";
-
-const PortfolioPage = lazy(() => import("./components/PortfolioPage"));
+import ImageGallery from "./components/ImageGallery";
 
 const App = () => {
-  const [isModalOpen, dispatch] = useReducer(openModalReducer, false);
+	const images = getAll();
+	const [isModalOpen, setIsModalOpen] = useState(false);
 
-  return (
-    <StrictMode>
-      <OpenModalContext.Provider value={{ isModalOpen, dispatch }}>
-        <section id="modal" />
-        <main className={isModalOpen ? "blur" : ""}>
-          <Header />
-          <Suspense fallback={<Loader />}>
-            <PortfolioPage />
-          </Suspense>
-        </main>
-      </OpenModalContext.Provider>
-    </StrictMode>
-  );
+	return (
+		<StrictMode>
+			<BrowserRouter>
+				<ModalContext.Provider value={[isModalOpen, setIsModalOpen]}>
+					<main className={isModalOpen ? "blur" : ""}>
+						<Header />
+						<ImageGallery images={images} />
+					</main>
+				</ModalContext.Provider>
+			</BrowserRouter>
+		</StrictMode>
+	);
 };
 
 const rootElement = document.getElementById("root");

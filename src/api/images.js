@@ -1,21 +1,14 @@
 import images from "../data/images";
 
-const perPage = 24;
-const totalPages = Math.ceil(images.length / perPage);
+const imageArray = Array.from(images).map(([, image]) => image);
 
-const get = page => {
-  const firstIndex = (page - 1) * perPage;
-  const lastIndex = page * perPage;
-  const imagesForPage = images.slice(firstIndex, lastIndex);
-
-  return {
-    images: imagesForPage,
-    page,
-    perPage,
-    totalPages
-  };
+export const get = id => {
+  return images.get(id);
 };
 
+export const getAll = () => imageArray;
+
 export default {
-  get
+  get,
+  getAll
 };

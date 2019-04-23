@@ -106,17 +106,19 @@ const imageMetadata = [
     fileName: "sci-fi-dress",
     description: "A sci fi outfit"
   }
-].map((image, i) => ({
+].map((image, i, images) => ({
   ...image,
+  previous: i > 0 ? i - 1 : undefined,
+  next: i + 1 < images.length ? i + 1 : undefined,
   id: i,
   imageSrc: require(`../images/${image.fileName}.jpg`),
   thumbnailSrc: require(`../images/${image.fileName}_tn.jpg`)
 }));
-const totalImages = 65;
-const images = [];
 
-for (let i = 0; i < totalImages; i++) {
-  images.push(imageMetadata[i % imageMetadata.length]);
-}
+const images = new Map();
+
+imageMetadata.forEach((image, i) => {
+  images.set(i, image);
+});
 
 export default images;
