@@ -1,11 +1,12 @@
-import React, { memo, useState, useEffect, useMemo, useCallback } from "react";
-import { Link } from "react-router-dom";
+import React, { memo, useCallback, useEffect, useState } from "react";
+
 import Arrow from "./Arrow";
 import ImageLoader from "./ImageLoader";
+import { Link } from "react-router-dom";
 import Modal from "./Modal";
-import useKeyDown from "../hooks/useKeyDown";
 import { get } from "../api/images";
 import styles from "./ImageModal.module.css";
+import useKeyDown from "../hooks/useKeyDown";
 
 const ImageModal = ({ match, history }) => {
   const [image, setImage] = useState({});
@@ -14,22 +15,17 @@ const ImageModal = ({ match, history }) => {
     setImage(get(Number(match.params.id)));
   }, [match.params.id]);
 
-  const onClose = useCallback(() => history.push("/"), []);
-
-  const isPreviousDisabled = useMemo(() => isNaN(image.previous), [
-    image.previous
-  ]);
-  const isNextDisabled = useMemo(() => isNaN(image.next), [image.next]);
-  const previousImageURL = useMemo(() => `/image/${image.previous}`, [
-    image.previous
-  ]);
-  const nextImageURL = useMemo(() => `/image/${image.next}`, [image.next]);
+  const onClose = useCallback(() => history.push("/"), [history]);
+  const isPreviousDisabled = isNaN(image.previous);
+  const isNextDisabled = isNaN(image.next);
+  const previousImageURL = `/image/${image.previous}`;
+  const nextImageURL = `/image/${image.next}`;
   const goToPrevious = useCallback(() => {
     if (!isPreviousDisabled) history.push(previousImageURL);
-  }, [previousImageURL]);
+  }, [history, isPreviousDisabled, previousImageURL]);
   const goToNext = useCallback(() => {
     if (!isNextDisabled) history.push(nextImageURL);
-  }, [nextImageURL]);
+  }, [history, isNextDisabled, nextImageURL]);
 
   useKeyDown("ArrowLeft", goToPrevious);
   useKeyDown("ArrowRight", goToNext);
@@ -37,31 +33,37 @@ const ImageModal = ({ match, history }) => {
   const stopPropagation = useCallback(event => event.stopPropagation(), []);
 
   return (
-    <Modal onClose={onClose}>
-      <Link
-        to={previousImageURL}
-        type="button"
-        onClick={stopPropagation}
-        className={styles.navigationButton}
-        disabled={isPreviousDisabled}
-      >
-        <Arrow direction="left" size="1rem" className={styles.arrow} />
-      </Link>
+    <Modal onClose={onClose} className={styles.imageModal}>
+      {isPreviousDisabled ? null : (
+        <Link
+          to={previousImageURL}
+          type="button"
+          onClick={stopPropagation}
+          className={`${styles.navigationButton} ${styles.previousButton}`}
+          disabled={isPreviousDisabled}
+          data-testid="previous-button"
+        >
+          <Arrow direction="left" size="1rem" className={styles.arrow} />
+        </Link>
+      )}
       <ImageLoader
         src={image.imageSrc}
         alt={image.description}
         title={image.description}
         className={styles.image}
       />
-      <Link
-        to={nextImageURL}
-        type="button"
-        onClick={stopPropagation}
-        className={styles.navigationButton}
-        disabled={isNextDisabled}
-      >
-        <Arrow direction="right" size="1rem" className={styles.arrow} />
-      </Link>
+      {isNextDisabled ? null : (
+        <Link
+          to={nextImageURL}
+          type="button"
+          onClick={stopPropagation}
+          className={`${styles.navigationButton} ${styles.nextButton}`}
+          disabled={isNextDisabled}
+          data-testid="next-button"
+        >
+          <Arrow direction="right" size="1rem" className={styles.arrow} />
+        </Link>
+      )}
     </Modal>
   );
 };

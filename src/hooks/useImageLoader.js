@@ -14,7 +14,7 @@ const useImageLoader = src => {
       image.removeEventListener("load", handleOnLoad);
       image.src = "";
     };
-  }, [src]);
+  }, [handleOnLoad, src]);
 
   return isLoading ? null : src;
 };

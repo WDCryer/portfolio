@@ -1,10 +1,17 @@
-import React, { useCallback, useContext, useEffect, memo } from "react";
+import React, {
+  memo,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo
+} from "react";
+
 import CloseButton from "./CloseButton";
 import ModalContext from "../contexts/Modal";
-import useKeyDown from "../hooks/useKeyDown";
 import styles from "./Modal.module.css";
+import useKeyDown from "../hooks/useKeyDown";
 
-const Modal = ({ onClose, children }) => {
+const Modal = ({ onClose, children, className = "", ...props }) => {
   useKeyDown("Escape", onClose);
 
   const handleCloseClick = useCallback(
@@ -20,13 +27,19 @@ const Modal = ({ onClose, children }) => {
   useEffect(() => {
     setIsModalOpen(true);
     return () => setIsModalOpen(false);
-  }, []);
+  }, [setIsModalOpen]);
+
+  const classNames = useMemo(
+    () => [styles.modal, className].filter(c => c).join(" "),
+    [className]
+  );
 
   return (
     <section
-      className={styles.modal}
+      className={classNames}
       onClick={handleCloseClick}
       data-testid="modal-container"
+      {...props}
     >
       <CloseButton
         onClick={handleCloseClick}
