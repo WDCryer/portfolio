@@ -1,8 +1,18 @@
 import { useCallback, useEffect } from "react";
 
-const useKeyDown = (key, callback) => {
-  const handler = useCallback(
-    event => {
+type Callback = (event: KeyboardEvent) => void
+
+type UseKeyDown = (
+  key: string,
+  callback: Callback 
+) => void;
+
+const useKeyDown: UseKeyDown = (
+  key: string,
+  callback: Callback
+): void => {
+  const handler: Callback = useCallback(
+    (event: KeyboardEvent) : void => {
       if (event.key === key) {
         callback(event);
       }

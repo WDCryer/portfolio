@@ -1,12 +1,14 @@
 import { useState, useEffect, useCallback } from "react";
 
-const useImageLoader = src => {
+const useImageLoader = (src: string): boolean => {
   const [isLoading, setIsLoading] = useState(true);
-  const handleOnLoad = useCallback(() => setIsLoading(false), []);
+  const handleOnLoad: () => void = useCallback(() => setIsLoading(false), []);
 
   useEffect(() => {
     setIsLoading(true);
-    const image = new Image();
+
+    const image: HTMLImageElement = new Image();
+
     image.addEventListener("load", handleOnLoad);
     image.src = src;
 
@@ -16,7 +18,7 @@ const useImageLoader = src => {
     };
   }, [handleOnLoad, src]);
 
-  return isLoading ? null : src;
+  return isLoading;
 };
 
 export default useImageLoader;

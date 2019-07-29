@@ -1,7 +1,7 @@
-import React, { memo } from "react";
+import React, { memo, ReactElement } from "react";
 import styles from "./Loader.module.css";
 
-const Loader = () => (
+const Loader = (): ReactElement => (
   <div className={styles.spinner}>
     <div />
     <div />

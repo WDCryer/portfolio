@@ -1,4 +1,9 @@
-const imageMetadata = [
+interface Image {
+  fileName: string
+  description: string
+}
+
+const imageMetadata: Image[] = [
   {
     fileName: "suri-boy",
     description: "A Suri boy drawn from a photo"

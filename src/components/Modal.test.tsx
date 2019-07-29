@@ -2,9 +2,13 @@ import React from "react";
 import { render, fireEvent, getByTestId } from "react-testing-library";
 import Modal from "./Modal";
 
+interface IModal {
+  container: HTMLElement;
+}
+
 describe("Modal component", () => {
-  let onClose;
-  let modal;
+  let onClose: () => void;
+  let modal: IModal;
 
   beforeEach(() => {
     onClose = jest.fn();

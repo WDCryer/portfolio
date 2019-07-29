@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useState } from "react";
+import React, { memo, useCallback, useEffect, useState, ReactElement } from "react";
 
 import Arrow from "./Arrow";
 import ImageLoader from "./ImageLoader";
@@ -7,9 +7,35 @@ import Modal from "./Modal";
 import { get } from "../api/images";
 import styles from "./ImageModal.module.css";
 import useKeyDown from "../hooks/useKeyDown";
+import IMatch from '../interfaces/Match'
 
-const ImageModal = ({ match, history }) => {
-  const [image, setImage] = useState({});
+interface History {
+  push(path: string): void;
+}
+
+interface ImageModalProps {
+  match: IMatch;
+  history: History;
+}
+
+interface Image {
+  description: string;
+  imageSrc: string;
+  previous: number;
+  next: number;
+}
+
+interface LinkProps {
+  disabled?: boolean;
+}
+
+const ImageModal = ({ match, history }: ImageModalProps) : ReactElement => {
+  const [image, setImage]: [Image, any] = useState({
+    description: '',
+    imageSrc: '',
+    previous: 0,
+    next: 0
+  });
 
   useEffect(() => {
     setImage(get(Number(match.params.id)));
@@ -26,7 +52,7 @@ const ImageModal = ({ match, history }) => {
   const goToNext = useCallback(() => {
     if (!isNextDisabled) history.push(nextImageURL);
   }, [history, isNextDisabled, nextImageURL]);
-
+  
   useKeyDown("ArrowLeft", goToPrevious);
   useKeyDown("ArrowRight", goToNext);
 
@@ -40,10 +66,10 @@ const ImageModal = ({ match, history }) => {
           type="button"
           onClick={stopPropagation}
           className={`${styles.navigationButton} ${styles.previousButton}`}
-          disabled={isPreviousDisabled}
+         //  disabled={isPreviousDisabled}
           data-testid="previous-button"
         >
-          <Arrow direction="left" size="1rem" className={styles.arrow} />
+          <Arrow direction="left" className={styles.arrow} />
         </Link>
       )}
       <ImageLoader
@@ -58,10 +84,10 @@ const ImageModal = ({ match, history }) => {
           type="button"
           onClick={stopPropagation}
           className={`${styles.navigationButton} ${styles.nextButton}`}
-          disabled={isNextDisabled}
+         // disabled={isNextDisabled}
           data-testid="next-button"
         >
-          <Arrow direction="right" size="1rem" className={styles.arrow} />
+          <Arrow direction="right" className={styles.arrow} />
         </Link>
       )}
     </Modal>

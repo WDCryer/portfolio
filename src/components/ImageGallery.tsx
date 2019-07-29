@@ -1,11 +1,16 @@
-import React, { memo } from "react";
+import React, { memo, ReactElement } from "react";
 import { Route, Link } from "react-router-dom";
 import styles from "./ImageGallery.module.css";
 import ImageLoader from "./ImageLoader";
 import ModalPortal from "./ModalPortal";
 import ImageModal from "./ImageModal";
+import IImage from '../interfaces/Image'
 
-const ImageGallery = ({ images }) => (
+interface Props {
+  images: IImage[] 
+}
+
+const ImageGallery = ({ images }: Props): ReactElement => (
   <div className={styles.imageGallery}>
     {images.map(({ thumbnailSrc, description, id }) => (
       <Link to={`/image/${id}`} key={`thumbnail-${id}`}>

@@ -1,7 +1,7 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import styles from "./Header.module.css";
 
-const Header = () => (
+const Header = () : ReactElement => (
   <header className={styles.header}>
     <h1>Bill Cryer Portfolio</h1>
   </header>

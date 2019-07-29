@@ -3,7 +3,9 @@ import React, {
   useCallback,
   useContext,
   useEffect,
-  useMemo
+  useMemo,
+  ReactElement,
+  ReactNode
 } from "react";
 
 import CloseButton from "./CloseButton";
@@ -11,7 +13,24 @@ import ModalContext from "../contexts/Modal";
 import styles from "./Modal.module.css";
 import useKeyDown from "../hooks/useKeyDown";
 
-const Modal = ({ onClose, children, className = "", ...props }) => {
+interface Props {
+  onClose(): void;
+  children?: ReactNode;
+  className?: string;
+  props?: any[];
+}
+
+interface ISetIsModalOpen {
+  (isModalOpen: boolean): void;
+  (callback: (isModalOpen: boolean) => boolean): void;
+} 
+
+const Modal = ({
+  onClose,
+  children,
+  className = "",
+  ...props
+}: Props): ReactElement => {
   useKeyDown("Escape", onClose);
 
   const handleCloseClick = useCallback(
@@ -24,8 +43,9 @@ const Modal = ({ onClose, children, className = "", ...props }) => {
 
   const [, setIsModalOpen] = useContext(ModalContext);
 
-  useEffect(() => {
+  useEffect((): (() => void) => {
     setIsModalOpen(true);
+
     return () => setIsModalOpen(false);
   }, [setIsModalOpen]);
 
