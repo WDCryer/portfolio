@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Arrow component should render properly with direction down 1`] = `
+<Memo(Arrow)
+  direction="down"
+/>
+`;
+
+exports[`Arrow component should render properly with direction left 1`] = `
+<Memo(Arrow)
+  direction="left"
+/>
+`;
+
+exports[`Arrow component should render properly with direction right 1`] = `
+<Memo(Arrow)
+  direction="right"
+/>
+`;
+
+exports[`Arrow component should render properly with direction up 1`] = `
+<Memo(Arrow)
+  direction="up"
+/>
+`;

@@ -3,16 +3,18 @@ import Loader from "./Loader";
 import useImageLoader from "../hooks/useImageLoader";
 
 interface Props {
-  className?: string;
-  src: string;
-  alt: string;
-  title: string;
+  readonly className?: string;
+  readonly src: string;
+  readonly alt: string;
+  readonly title: string;
 }
 
 const ImageLoader = ({ src, alt, title, className }: Props): ReactElement => {
   const isLoading: boolean = useImageLoader(src);
 
   if (isLoading) {
+    return <Loader />;
+  } else {
     return (
       <img
         src={src}
@@ -22,8 +24,6 @@ const ImageLoader = ({ src, alt, title, className }: Props): ReactElement => {
         draggable={false}
       />
     );
-  } else {
-    return <Loader />;
   }
 };
 

@@ -1,6 +1,6 @@
 interface Image {
-  fileName: string
-  description: string
+  fileName: string;
+  description: string;
 }
 
 const imageMetadata: Image[] = [
@@ -122,7 +122,7 @@ const imageMetadata: Image[] = [
 
 const images = new Map();
 
-imageMetadata.forEach((image, i) => {
+imageMetadata.forEach((image: Image, i: number) => {
   images.set(i, image);
 });
 

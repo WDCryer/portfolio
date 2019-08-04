@@ -3,7 +3,7 @@ import { render, fireEvent, getByTestId } from "react-testing-library";
 import Modal from "./Modal";
 
 interface IModal {
-  container: HTMLElement;
+  readonly container: HTMLElement;
 }
 
 describe("Modal component", () => {

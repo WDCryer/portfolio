@@ -9,14 +9,14 @@ import {
 import { BrowserRouter } from "react-router-dom";
 import ImageModal from "./ImageModal";
 import React from "react";
-import images from "../api/images";
+import { getAll } from "../api/images";
 import IHistory from "../interfaces/History";
-import IImage from "../interfaces/Image";
+import IImageData from "../interfaces/ImageData";
 
 describe("ImageModal component", () => {
-  const allImages: IImage[] = images.getAll();
-  const firstImage: IImage = allImages[0];
-  const lastImage: IImage = allImages[allImages.length - 1];
+  const allImages: IImageData[] = getAll();
+  const firstImage: IImageData = allImages[0];
+  const lastImage: IImageData = allImages[allImages.length - 1];
 
   let history: IHistory;
 

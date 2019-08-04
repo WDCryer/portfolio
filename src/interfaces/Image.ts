@@ -1,11 +1,8 @@
-interface Image {
-  fileName: string;
-  description: string;
-  previous: number;
-  next: number;
-  id: number;
-  imageSrc: string;
-  thumbnailSrc: string;
-}
+import IImageData from "./ImageData";
+
+export type Image = Pick<
+  IImageData,
+  "imageSrc" | "description" | "previous" | "next"
+>;
 
 export default Image;

@@ -15,15 +15,15 @@ import useKeyDown from "../hooks/useKeyDown";
 
 interface Props {
   onClose(): void;
-  children?: ReactNode;
-  className?: string;
-  props?: any[];
+  readonly children?: ReactNode;
+  readonly className?: string;
+  readonly props?: any[];
 }
 
 interface ISetIsModalOpen {
   (isModalOpen: boolean): void;
   (callback: (isModalOpen: boolean) => boolean): void;
-} 
+}
 
 const Modal = ({
   onClose,
@@ -41,7 +41,7 @@ const Modal = ({
     [onClose]
   );
 
-  const [, setIsModalOpen] = useContext(ModalContext);
+  const { setIsModalOpen } = useContext(ModalContext);
 
   useEffect((): (() => void) => {
     setIsModalOpen(true);

@@ -1,6 +1,10 @@
 import React, { memo, ReactElement } from "react";
 
-const CloseButton = (props: object): ReactElement => (
+interface ICloseButton {
+  [key: string]: any;
+}
+
+const CloseButton = (props: ICloseButton): ReactElement => (
   <button {...props}>close</button>
 );
 

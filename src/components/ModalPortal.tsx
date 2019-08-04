@@ -1,11 +1,14 @@
 import { createPortal } from "react-dom";
-import { ReactElement, ReactNode } from "react";
+import { ReactNode } from "react";
 
 interface Props {
-  children: ReactNode
+  readonly children: ReactNode;
 }
 
-const ModalPortal = ({ children } : Props) =>
-  createPortal(children, document.getElementById("modal"));
+const ModalPortal = ({ children }: Props) => {
+  const target: Element | null = document.getElementById("modal");
+
+  return target ? createPortal(children, target) : null;
+};
 
 export default ModalPortal;

@@ -4,16 +4,20 @@ import styles from "./ImageGallery.module.css";
 import ImageLoader from "./ImageLoader";
 import ModalPortal from "./ModalPortal";
 import ImageModal from "./ImageModal";
-import IImage from '../interfaces/Image'
+import IThumbnailImage from "../interfaces/ThumbnailImage";
 
 interface Props {
-  images: IImage[] 
+  readonly images: IThumbnailImage[];
 }
 
 const ImageGallery = ({ images }: Props): ReactElement => (
   <div className={styles.imageGallery}>
     {images.map(({ thumbnailSrc, description, id }) => (
-      <Link to={`/image/${id}`} key={`thumbnail-${id}`}>
+      <Link
+        to={`/image/${id}`}
+        key={`thumbnail-${id}`}
+        data-testid={`thumbnail-${id}`}
+      >
         <ImageLoader
           src={thumbnailSrc}
           alt={description}

@@ -14,7 +14,7 @@ const App = () => {
 	return (
 		<StrictMode>
 			<BrowserRouter>
-				<ModalContext.Provider value={[isModalOpen, setIsModalOpen]}>
+				<ModalContext.Provider value={{isModalOpen, setIsModalOpen}}>
 					<main className={isModalOpen ? "blur" : ""}>
 						<Header />
 						<ImageGallery images={images} />

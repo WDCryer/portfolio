@@ -1,9 +1,9 @@
-interface Match {
-  params: Params;
+interface Params {
+  readonly id: number;
 }
 
-interface Params {
-  id: number;
+interface Match {
+  readonly params: Params;
 }
 
 export default Match;
