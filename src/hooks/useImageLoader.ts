@@ -2,7 +2,9 @@ import { useState, useEffect, useCallback } from "react";
 
 const useImageLoader = (src: string): boolean => {
   const [isLoading, setIsLoading] = useState(true);
-  const handleOnLoad: () => void = useCallback(() => setIsLoading(false), []);
+  const handleOnLoad: () => void = useCallback(() => {
+    setIsLoading(false);
+  }, []);
 
   useEffect(() => {
     setIsLoading(true);
