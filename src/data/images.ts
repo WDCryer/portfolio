@@ -117,7 +117,7 @@ const imageMetadata: Image[] = [
   next: i + 1 < images.length ? i + 1 : undefined,
   id: i,
   imageSrc: require(`../images/${image.fileName}.jpg`),
-  thumbnailSrc: require(`../images/${image.fileName}_tn.jpg`)
+  thumbnailSrc: require(`../images/${image.fileName}_thumbnail.jpg`)
 }));
 
 const images = new Map();

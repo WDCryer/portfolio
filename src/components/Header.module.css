@@ -1,5 +1,8 @@
 .header {
-  padding: 3rem;
+  background-color: white;
+  box-shadow: 0 5px 5px black;
+  margin-bottom: 0.5rem;
+  padding: 1rem;
 }
 
 .header h1 {

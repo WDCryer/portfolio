@@ -1,9 +1,9 @@
 import React, { ReactElement } from "react";
 import styles from "./Header.module.css";
 
-const Header = () : ReactElement => (
+const Header = (): ReactElement => (
   <header className={styles.header}>
-    <h1>Bill Cryer Portfolio</h1>
+    <h1>Gallery</h1>
   </header>
 );
 

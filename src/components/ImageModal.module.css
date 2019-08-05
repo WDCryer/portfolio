@@ -19,6 +19,9 @@
   opacity: 0.5;
   padding: 1rem;
   transition: opacity 250ms, background-color 250ms;
+  height: 100px;
+  width: 100px;
+  background-size: contain;
 }
 
 .navigationButton:hover {
@@ -37,8 +40,4 @@
 .nextButton {
   justify-self: end;
   grid-area: next;
-}
-
-.arrow {
-  margin: 1rem;
 }

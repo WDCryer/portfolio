@@ -17,6 +17,7 @@ const ImageGallery = ({ images }: Props): ReactElement => (
         to={`/image/${id}`}
         key={`thumbnail-${id}`}
         data-testid={`thumbnail-${id}`}
+        className={styles.thumbnailLink}
       >
         <ImageLoader
           src={thumbnailSrc}

@@ -2,6 +2,7 @@ import React, {
   memo,
   useCallback,
   useEffect,
+  useMemo,
   useState,
   ReactElement
 } from "react";
@@ -37,6 +38,7 @@ const ImageModal = ({ match, history }: ImageModalProps): ReactElement => {
     setImage(get(Number(match.params.id)));
   }, [match.params.id]);
 
+  // TODO extract previous and next button to separate components
   const onClose = useCallback(() => history.push("/"), [history]);
   const isPreviousDisabled = isNaN(image.previous);
   const isNextDisabled = isNaN(image.next);
@@ -54,6 +56,9 @@ const ImageModal = ({ match, history }: ImageModalProps): ReactElement => {
 
   const stopPropagation = useCallback(event => event.stopPropagation(), []);
 
+  const previousImage = useMemo(() => get(image.previous), [image.previous]);
+  const nextImage = useMemo(() => get(image.next), [image.next]);
+
   return (
     <Modal onClose={onClose} className={styles.imageModal}>
       {isPreviousDisabled ? null : (
@@ -61,11 +66,14 @@ const ImageModal = ({ match, history }: ImageModalProps): ReactElement => {
           to={previousImageURL}
           type="button"
           onClick={stopPropagation}
-          className={`${styles.navigationButton} ${styles.previousButton}`}
+          className={`${styles.navigationButton} ${
+            styles.previousButton
+          } dark-button`}
           data-testid="previous-button"
-        >
-          <Arrow direction="left" className={styles.arrow} />
-        </Link>
+          style={{
+            backgroundImage: `url(${previousImage.thumbnailSrc})`
+          }}
+        />
       )}
       <ImageLoader
         src={image.imageSrc}
@@ -78,11 +86,14 @@ const ImageModal = ({ match, history }: ImageModalProps): ReactElement => {
           to={nextImageURL}
           type="button"
           onClick={stopPropagation}
-          className={`${styles.navigationButton} ${styles.nextButton}`}
+          className={`${styles.navigationButton} ${
+            styles.nextButton
+          } dark-button`}
           data-testid="next-button"
-        >
-          <Arrow direction="right" className={styles.arrow} />
-        </Link>
+          style={{
+            backgroundImage: `url(${nextImage.thumbnailSrc})`
+          }}
+        />
       )}
     </Modal>
   );

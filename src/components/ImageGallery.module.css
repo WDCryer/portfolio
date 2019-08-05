@@ -5,11 +5,15 @@
   align-items: center;
 }
 
+.thumbnailLink {
+  display: flex;
+}
+
 .thumbnail {
   composes: fade-in from global;
-  height: 128px;
-  width: 128px;
-  margin: 1rem;
+  box-shadow: 0 3px 3px black;
+  height: 192px;
+  width: 192px;
   object-fit: contain;
   object-position: center;
   display: inline-block;
@@ -17,6 +21,5 @@
   justify-self: center;
   position: relative;
   cursor: pointer;
-  background-color: rgba(0, 0, 0, 5%);
-  border-radius: 1rem;
+  margin: 2rem;
 }

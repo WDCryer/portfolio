@@ -11,12 +11,12 @@ import ImageModal from "./ImageModal";
 import React from "react";
 import { getAll } from "../api/images";
 import IHistory from "../interfaces/History";
-import IImageData from "../interfaces/ImageData";
+import IImage from "../interfaces/Image";
 
 describe("ImageModal component", () => {
-  const allImages: IImageData[] = getAll();
-  const firstImage: IImageData = allImages[0];
-  const lastImage: IImageData = allImages[allImages.length - 1];
+  const allImages: IImage[] = getAll();
+  const firstImage: IImage = allImages[0];
+  const lastImage: IImage = allImages[allImages.length - 1];
 
   let history: IHistory;
 
